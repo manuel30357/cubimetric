@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Cubimetric">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0a0e1a">
+<title>CUBIMETRIC PRO</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow-x:hidden;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0a0e1a;color:#fff;min-height:100vh;min-height:-webkit-fill-available;}
+input,select,button{font-family:inherit;-webkit-appearance:none;appearance:none;border-radius:8px;}
+
+/* ── PORTADA ── */
+#screen-home{min-height:100vh;min-height:-webkit-fill-available;background:linear-gradient(135deg,#0a0e1a 0%,#0f1e3a 50%,#0a1628 100%);display:flex;flex-direction:column;align-items:center;padding:env(safe-area-inset-top,24px) 16px 40px;position:relative;overflow-x:hidden;overflow-y:auto;}
+#screen-home::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 20%,rgba(230,180,40,0.10) 0%,transparent 70%);pointer-events:none;}
+.grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(230,180,40,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(230,180,40,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
+.z{position:relative;}
+.home-badge{background:rgba(230,180,40,0.15);border:1px solid rgba(230,180,40,0.35);color:#e6b428;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:5px 16px;border-radius:20px;margin-bottom:16px;}
+.home-icon{width:68px;height:68px;border-radius:16px;background:linear-gradient(135deg,#e6b428,#c9941a);display:flex;align-items:center;justify-content:center;margin-bottom:14px;box-shadow:0 8px 32px rgba(230,180,40,0.35);}
+.home-icon i{font-size:36px;color:#0a0e1a;}
+.home-appname{font-size:30px;font-weight:800;letter-spacing:-1px;text-align:center;background:linear-gradient(90deg,#fff 0%,#e6b428 60%,#c9941a 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px;}
+.home-tagline{font-size:12px;color:rgba(255,255,255,0.4);text-align:center;margin-bottom:14px;}
+
+/* FICHA */
+.ficha{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px;width:100%;max-width:600px;margin-bottom:16px;}
+.ficha-title{font-size:10px;font-weight:700;color:rgba(255,255,255,0.3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:11px;display:flex;align-items:center;gap:6px;}
+.ficha-title i{color:#e6b428;font-size:13px;}
+.ficha-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.fg{display:flex;flex-direction:column;gap:4px;}
+.fg label{font-size:10px;color:rgba(255,255,255,0.4);font-weight:500;}
+.fg input,.fg select{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:#fff;border-radius:8px;padding:9px 10px;font-size:13px;}
+.fg input:focus,.fg select:focus{outline:none;border-color:#e6b428;}
+.fg select option{background:#161d2e;color:#fff;}
+.fg.full{grid-column:1/-1;}
+
+/* GRILLA MÓDULOS */
+.cat-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.25);width:100%;max-width:600px;margin-bottom:7px;margin-top:6px;}
+.modules-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;max-width:600px;margin-bottom:4px;}
+.modules-grid.col4{grid-template-columns:repeat(4,1fr);}
+.mod-btn{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:11px;padding:12px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;transition:all 0.15s;-webkit-user-select:none;user-select:none;}
+.mod-btn:active{transform:scale(0.95);border-color:rgba(230,180,40,0.5);}
+.mod-btn-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.mod-btn-label{font-size:10px;font-weight:600;text-align:center;color:rgba(255,255,255,0.85);line-height:1.3;}
+.mod-btn-count{font-size:9px;color:rgba(255,255,255,0.35);}
+.c-civil{background:rgba(41,128,185,0.2);color:#5dade2;}
+.c-term{background:rgba(39,174,96,0.2);color:#58d68d;}
+.c-inst{background:rgba(231,76,60,0.18);color:#f1948a;}
+.c-acab{background:rgba(142,68,173,0.2);color:#c39bd3;}
+
+/* BARRA PDF */
+.pdf-bar{width:100%;max-width:600px;margin-top:16px;display:flex;gap:9px;}
+.btn-pdf{background:#e6b428;color:#0a0e1a;border:none;padding:14px 0;border-radius:11px;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:8px;flex:1;justify-content:center;-webkit-user-select:none;user-select:none;}
+.btn-pdf:active{background:#f0c840;transform:scale(0.98);}
+.btn-preview{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.75);padding:14px 16px;border-radius:11px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:7px;-webkit-user-select:none;user-select:none;}
+.btn-preview:active{background:rgba(255,255,255,0.14);}
+
+/* ── MÓDULO ── */
+#screen-mod{display:none;min-height:100vh;min-height:-webkit-fill-available;background:#0d1117;flex-direction:column;}
+.mod-topbar{background:#0f1623;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top,0px) + 12px) 14px 12px;position:sticky;top:0;z-index:10;}
+.back-btn{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);color:#fff;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:5px;-webkit-user-select:none;user-select:none;}
+.back-btn:active{background:rgba(255,255,255,0.15);}
+.mod-topbar-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.mod-topbar-title{font-size:13px;font-weight:600;color:#fff;}
+.mod-topbar-sub{font-size:10px;color:rgba(255,255,255,0.4);}
+.mod-body{padding:14px;flex:1;overflow-y:auto;}
+.form-card{background:#161d2e;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px;margin-bottom:12px;}
+.form-title{font-size:10px;font-weight:600;color:rgba(255,255,255,0.4);letter-spacing:1px;text-transform:uppercase;margin-bottom:11px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.form-group{display:flex;flex-direction:column;gap:4px;}
+.form-group label{font-size:10px;color:rgba(255,255,255,0.45);font-weight:500;}
+.form-group input,.form-group select{background:#0d1117;border:1px solid rgba(255,255,255,0.1);color:#fff;border-radius:8px;padding:9px 10px;font-size:14px;}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:#e6b428;}
+.form-group select option{background:#161d2e;color:#fff;}
+.form-group.full{grid-column:1/-1;}
+.add-row{display:flex;gap:9px;margin-top:11px;}
+.btn-add{background:#e6b428;color:#0a0e1a;border:none;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;-webkit-user-select:none;user-select:none;}
+.btn-add:active{background:#f0c840;transform:scale(0.97);}
+
+/* TABLA RESULTADOS */
+.results-card{background:#161d2e;border:1px solid rgba(255,255,255,0.08);border-radius:12px;overflow:hidden;margin-bottom:12px;}
+.results-header{padding:9px 13px;border-bottom:1px solid rgba(255,255,255,0.06);font-size:10px;font-weight:600;color:rgba(255,255,255,0.4);letter-spacing:1px;text-transform:uppercase;}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table{width:100%;border-collapse:collapse;font-size:11px;min-width:340px;}
+th{background:#0f1623;color:rgba(255,255,255,0.45);padding:6px 8px;text-align:left;font-size:10px;font-weight:600;letter-spacing:0.6px;text-transform:uppercase;white-space:nowrap;}
+td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.05);color:rgba(255,255,255,0.8);white-space:nowrap;}
+tr:last-child td{border-bottom:none;}
+td.hl{color:#e6b428;font-weight:600;}
+.del-btn{background:none;border:none;cursor:pointer;color:rgba(231,76,60,0.7);font-size:15px;padding:3px 6px;}
+.del-btn:active{color:#e74c3c;}
+
+/* PILLS TOTALES */
+.totals-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.total-pill{background:#161d2e;border:1px solid rgba(230,180,40,0.25);border-radius:9px;padding:8px 13px;}
+.tpl{font-size:9px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.7px;}
+.tpv{font-size:18px;font-weight:700;color:#e6b428;margin-top:1px;}
+.tpu{font-size:9px;color:rgba(255,255,255,0.3);}
+.empty-msg{text-align:center;padding:24px;color:rgba(255,255,255,0.2);font-size:12px;}
+.empty-msg i{font-size:30px;display:block;margin-bottom:8px;opacity:0.3;}
+
+/* TABS ACERO */
+.acero-tabs{display:flex;gap:5px;margin-bottom:11px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px;}
+.atab{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);padding:6px 12px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.atab.active{background:#e6b428;color:#0a0e1a;border-color:#e6b428;}
+
+/* PREVIEW */
+#screen-preview{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:200;overflow:auto;-webkit-overflow-scrolling:touch;padding:12px;}
+.preview-wrap{max-width:680px;margin:0 auto;}
+.preview-toolbar{display:flex;gap:8px;margin-bottom:10px;justify-content:flex-end;}
+.pvbtn{padding:10px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;border:none;-webkit-user-select:none;user-select:none;}
+.pvbtn-pdf{background:#e6b428;color:#0a0e1a;}
+.pvbtn-close{background:rgba(255,255,255,0.12);color:#fff;}
+.preview-box{background:#fff;border-radius:10px;overflow:hidden;}
+</style>
+</head>
+<body>
+
+<!-- ══ PORTADA ══ -->
+<div id="screen-home">
+  <div class="grid-bg"></div>
+  <div class="home-badge z">Software de Ingeniería Civil</div>
+  <div class="home-icon z"><i class="ti ti-building-community"></i></div>
+  <div class="home-appname z">CUBIMETRIC PRO</div>
+  <div class="home-tagline z">Sistema de Cubicaciones · v2.0</div>
+
+  <div class="ficha z">
+    <div class="ficha-title"><i class="ti ti-file-description"></i> Datos del Reporte</div>
+    <div class="ficha-grid">
+      <div class="fg"><label>N° Reporte</label><input id="rpt-num" placeholder="CUB-001-2025"/></div>
+      <div class="fg"><label>Proyecto</label><input id="proj-nombre" placeholder="Nombre del proyecto"/></div>
+      <div class="fg"><label>Ubicación</label><input id="proj-ubic" placeholder="Ciudad, RD"/></div>
+      <div class="fg"><label>Nivel / Etapa</label>
+        <select id="proj-nivel"><option>General (todos los niveles)</option><option>Nivel 1 — Planta Baja</option><option>Nivel 2</option><option>Azotea</option><option>Sótano</option><option>Etapa 1</option><option>Etapa 2</option></select>
+      </div>
+      <div class="fg"><label>Elaborado por</label><input id="proj-autor" placeholder="Ing. / Técnico"/></div>
+      <div class="fg"><label>Revisado por</label><input id="proj-revisor" placeholder="Supervisor"/></div>
+      <div class="fg"><label>Aprobado por</label><input id="proj-aprueba" placeholder="Director / Gerente"/></div>
+      <div class="fg"><label>Estado</label>
+        <select id="proj-estado"><option>Para revisión</option><option>Para aprobación</option><option>Aprobado</option><option>En proceso</option></select>
+      </div>
+    </div>
+  </div>
+
+  <div class="cat-label z">Obra Civil</div>
+  <div class="modules-grid col4 z">
+    <div class="mod-btn" onclick="openMod('excavacion')"><div class="mod-btn-icon c-civil"><i class="ti ti-shovel"></i></div><div class="mod-btn-label">Excava-ciones</div><div class="mod-btn-count" id="cnt-excavacion">— m³</div></div>
+    <div class="mod-btn" onclick="openMod('acero')"><div class="mod-btn-icon c-civil"><i class="ti ti-tools"></i></div><div class="mod-btn-label">Aceros</div><div class="mod-btn-count" id="cnt-acero">— kg</div></div>
+    <div class="mod-btn" onclick="openMod('bloques')"><div class="mod-btn-icon c-civil"><i class="ti ti-layout-grid"></i></div><div class="mod-btn-label">Bloques</div><div class="mod-btn-count" id="cnt-bloques">— und</div></div>
+    <div class="mod-btn" onclick="openMod('encofrado')"><div class="mod-btn-icon c-civil"><i class="ti ti-wall"></i></div><div class="mod-btn-label">Enco-frados</div><div class="mod-btn-count" id="cnt-encofrado">— m²</div></div>
+    <div class="mod-btn" onclick="openMod('vaciado')"><div class="mod-btn-icon c-civil"><i class="ti ti-droplet-filled"></i></div><div class="mod-btn-label">Vaciados</div><div class="mod-btn-count" id="cnt-vaciado">— m³</div></div>
+  </div>
+
+  <div class="cat-label z">Terminaciones</div>
+  <div class="modules-grid col4 z">
+    <div class="mod-btn" onclick="openMod('empanet')"><div class="mod-btn-icon c-term"><i class="ti ti-paint"></i></div><div class="mod-btn-label">Empa-ñetes</div><div class="mod-btn-count" id="cnt-empanet">— m²</div></div>
+    <div class="mod-btn" onclick="openMod('cantos')"><div class="mod-btn-icon c-term"><i class="ti ti-border-outer"></i></div><div class="mod-btn-label">Cantos</div><div class="mod-btn-count" id="cnt-cantos">— ml</div></div>
+    <div class="mod-btn" onclick="openMod('pintura')"><div class="mod-btn-icon c-term"><i class="ti ti-brush"></i></div><div class="mod-btn-label">Pinturas</div><div class="mod-btn-count" id="cnt-pintura">— m²</div></div>
+    <div class="mod-btn" onclick="openMod('plafones')"><div class="mod-btn-icon c-term"><i class="ti ti-square"></i></div><div class="mod-btn-label">Plafones</div><div class="mod-btn-count" id="cnt-plafones">— m²</div></div>
+  </div>
+
+  <div class="cat-label z">Instalaciones</div>
+  <div class="modules-grid z">
+    <div class="mod-btn" onclick="openMod('electrica')"><div class="mod-btn-icon c-inst"><i class="ti ti-bolt"></i></div><div class="mod-btn-label">Electricidad</div><div class="mod-btn-count" id="cnt-electrica">— ptos</div></div>
+    <div class="mod-btn" onclick="openMod('plomeria')"><div class="mod-btn-icon c-inst"><i class="ti ti-wave-sine"></i></div><div class="mod-btn-label">Plomería</div><div class="mod-btn-count" id="cnt-plomeria">— ml</div></div>
+  </div>
+
+  <div class="cat-label z">Acabados</div>
+  <div class="modules-grid z">
+    <div class="mod-btn" onclick="openMod('cocina')"><div class="mod-btn-icon c-acab"><i class="ti ti-home"></i></div><div class="mod-btn-label">Mesetas Cocina</div><div class="mod-btn-count" id="cnt-cocina">— ml</div></div>
+    <div class="mod-btn" onclick="openMod('ebanisteria')"><div class="mod-btn-icon c-acab"><i class="ti ti-door"></i></div><div class="mod-btn-label">Ebanistería</div><div class="mod-btn-count" id="cnt-ebanisteria">— und</div></div>
+    <div class="mod-btn" onclick="openMod('ventanales')"><div class="mod-btn-icon c-acab"><i class="ti ti-app-window"></i></div><div class="mod-btn-label">Ventanales</div><div class="mod-btn-count" id="cnt-ventanales">— m²</div></div>
+  </div>
+
+  <div class="pdf-bar z">
+    <button class="btn-preview" onclick="showPreview()"><i class="ti ti-eye"></i> Vista Previa</button>
+    <button class="btn-pdf" onclick="exportarPDF()"><i class="ti ti-file-type-pdf"></i> Exportar PDF</button>
+  </div>
+  <div style="font-size:10px;color:rgba(255,255,255,0.12);margin-top:14px;padding-bottom:env(safe-area-inset-bottom,0px);" class="z">CUBIMETRIC PRO v2.0 · Ingeniería Civil</div>
+</div>
+
+<!-- ══ MÓDULO ══ -->
+<div id="screen-mod">
+  <div class="mod-topbar">
+    <button class="back-btn" onclick="goHome()"><i class="ti ti-arrow-left"></i> Volver</button>
+    <div class="mod-topbar-icon" id="tb-icon"></div>
+    <div><div class="mod-topbar-title" id="tb-title"></div><div class="mod-topbar-sub" id="tb-sub"></div></div>
+  </div>
+  <div class="mod-body" id="mod-body"></div>
+</div>
+
+<!-- ══ PREVIEW ══ -->
+<div id="screen-preview">
+  <div class="preview-wrap">
+    <div class="preview-toolbar">
+      <button class="pvbtn pvbtn-close" onclick="closePreview()"><i class="ti ti-x"></i> Cerrar</button>
+      <button class="pvbtn pvbtn-pdf" onclick="imprimir()"><i class="ti ti-printer"></i> PDF</button>
+    </div>
+    <div class="preview-box" id="preview-content"></div>
+  </div>
+</div>
+
+<script>
+const DB={excavacion:[],acero:{zatas:[],columnas:[],vigas:[],losas:[],otros:[]},bloques:[],encofrado:[],vaciado:[],empanet:[],cantos:[],pintura:[],electrica:[],plomeria:[],plafones:[],cocina:[],ebanisteria:[],ventanales:[]};
+let curMod='',acTab='zatas';
+const MODS={excavacion:{icon:'ti-shovel',title:'Excavaciones',sub:'Volúmenes de excavación',color:'c-civil'},acero:{icon:'ti-tools',title:'Aceros',sub:'Cubicación por elemento',color:'c-civil'},bloques:{icon:'ti-layout-grid',title:'Bloques',sub:'Mampostería',color:'c-civil'},encofrado:{icon:'ti-wall',title:'Encofrados',sub:'Área de encofrado',color:'c-civil'},vaciado:{icon:'ti-droplet-filled',title:'Vaciados',sub:"Vol. por elemento y f'c",color:'c-civil'},empanet:{icon:'ti-paint',title:'Empañetes',sub:'Repello y fratasado',color:'c-term'},cantos:{icon:'ti-border-outer',title:'Cantos',sub:'Metros lineales',color:'c-term'},pintura:{icon:'ti-brush',title:'Pinturas',sub:'Área por ambiente',color:'c-term'},plafones:{icon:'ti-square',title:'Plafones',sub:'Cielos rasos',color:'c-term'},electrica:{icon:'ti-bolt',title:'Electricidad',sub:'Puntos y circuitos',color:'c-inst'},plomeria:{icon:'ti-wave-sine',title:'Plomería',sub:'Tuberías y puntos',color:'c-inst'},cocina:{icon:'ti-home',title:'Mesetas de Cocina',sub:'Metros lineales',color:'c-acab'},ebanisteria:{icon:'ti-door',title:'Ebanistería',sub:'Puertas y muebles',color:'c-acab'},ventanales:{icon:'ti-app-window',title:'Ventanales',sub:'Ventanas y cristalería',color:'c-acab'}};
+
+function gv(id){const e=document.getElementById(id);return e?e.value:'';}
+function gvS(id){const e=document.getElementById(id);return e&&e.options?e.options[e.selectedIndex].text:'';}
+
+function openMod(mod){curMod=mod;document.getElementById('screen-home').style.display='none';document.getElementById('screen-mod').style.display='flex';const m=MODS[mod];const ic=document.getElementById('tb-icon');ic.className='mod-topbar-icon '+m.color;ic.innerHTML=`<i class="ti ${m.icon}"></i>`;document.getElementById('tb-title').textContent=m.title;document.getElementById('tb-sub').textContent=m.sub;renderModBody(mod);}
+function goHome(){document.getElementById('screen-mod').style.display='none';document.getElementById('screen-home').style.display='flex';updateCounts();}
+
+function updateCounts(){
+  const s=(id,val,u)=>{const e=document.getElementById('cnt-'+id);if(e)e.textContent=val?val+' '+u:'— '+u;};
+  s('excavacion',DB.excavacion.length?DB.excavacion.reduce((a,r)=>a+r.vol,0).toFixed(2):0,'m³');
+  const ac=Object.values(DB.acero).flat();
+  s('acero',ac.length?ac.reduce((a,r)=>a+r.kg,0).toFixed(1):0,'kg');
+  s('bloques',DB.bloques.length?DB.bloques.reduce((a,r)=>a+r.und,0):0,'und');
+  s('encofrado',DB.encofrado.length?DB.encofrado.reduce((a,r)=>a+r.area,0).toFixed(2):0,'m²');
+  s('vaciado',DB.vaciado.length?DB.vaciado.reduce((a,r)=>a+r.vol,0).toFixed(3):0,'m³');
+  s('empanet',DB.empanet.length?DB.empanet.reduce((a,r)=>a+r.area,0).toFixed(2):0,'m²');
+  s('cantos',DB.cantos.length?DB.cantos.reduce((a,r)=>a+r.ml,0).toFixed(2):0,'ml');
+  s('pintura',DB.pintura.length?DB.pintura.reduce((a,r)=>a+r.area,0).toFixed(2):0,'m²');
+  s('plafones',DB.plafones.length?DB.plafones.reduce((a,r)=>a+r.area,0).toFixed(2):0,'m²');
+  s('electrica',DB.electrica.length?DB.electrica.reduce((a,r)=>a+r.pto,0):0,'ptos');
+  s('plomeria',DB.plomeria.length?DB.plomeria.reduce((a,r)=>a+r.ml,0).toFixed(2):0,'ml');
+  s('cocina',DB.cocina.length?DB.cocina.reduce((a,r)=>a+r.ml,0).toFixed(2):0,'ml');
+  s('ebanisteria',DB.ebanisteria.length?DB.ebanisteria.reduce((a,r)=>a+r.und,0):0,'und');
+  s('ventanales',DB.ventanales.length?DB.ventanales.reduce((a,r)=>a+r.area,0).toFixed(2):0,'m²');
+}
+
+function generarHTML(){
+  const num=gv('rpt-num')||'—',proj=gv('proj-nombre')||'Sin nombre',ubic=gv('proj-ubic')||'—';
+  const nivel=gvS('proj-nivel'),autor=gv('proj-autor')||'—',revisor=gv('proj-revisor')||'—';
+  const aprueba=gv('proj-aprueba')||'—',estado=gvS('proj-estado');
+  const fecha=new Date().toLocaleDateString('es-DO',{year:'numeric',month:'long',day:'numeric'});
+  const navy='#0D1B3E';
+  const th=`background:${navy};color:#fff;padding:6px 9px;text-align:left;font-size:11px;border:none;`;
+  const td=`padding:6px 9px;border-bottom:1px solid #eaeaea;font-size:11px;color:#222;`;
+  const tdg=`padding:6px 9px;border-bottom:1px solid #eaeaea;font-size:11px;font-weight:700;color:#9a7000;`;
+  const stBg={'Para revisión':'#fff8e1','Para aprobación':'#e3f2fd','Aprobado':'#e8f5e9','En proceso':'#fce4ec'};
+  const stCo={'Para revisión':'#c17f00','Para aprobación':'#1565c0','Aprobado':'#2e7d32','En proceso':'#ad1457'};
+  const bg=stBg[estado]||'#f5f5f5',co=stCo[estado]||'#333';
+  function sec(titulo,color,cols,filas,resumen){if(!filas)return'';return`<div style="margin-bottom:16px;page-break-inside:avoid;"><div style="background:${color};color:#fff;padding:7px 12px;font-size:11px;font-weight:700;">${titulo}</div><table style="width:100%;border-collapse:collapse;border:1px solid #ddd;border-top:none;"><thead><tr>${cols.map(c=>`<th style="${th}">${c}</th>`).join('')}</tr></thead><tbody>${filas}</tbody></table>${resumen?`<div style="background:#fffbee;border:1px solid #e6c84a;border-top:none;padding:5px 12px;font-size:11px;">${resumen}</div>`:''}</div>`;}
+  const ac=Object.values(DB.acero).flat();
+  const mods=[{n:'Excavaciones',v:DB.excavacion.reduce((a,r)=>a+r.vol,0).toFixed(3),u:'m³',c:DB.excavacion.length},{n:'Acero de refuerzo',v:ac.reduce((a,r)=>a+r.kg,0).toFixed(1),u:'kg',c:ac.length},{n:'Bloques',v:DB.bloques.reduce((a,r)=>a+r.und,0),u:'und',c:DB.bloques.length},{n:'Encofrados',v:DB.encofrado.reduce((a,r)=>a+r.area,0).toFixed(2),u:'m²',c:DB.encofrado.length},{n:'Vaciados de concreto',v:DB.vaciado.reduce((a,r)=>a+r.vol,0).toFixed(3),u:'m³',c:DB.vaciado.length},{n:'Empañetes',v:DB.empanet.reduce((a,r)=>a+r.area,0).toFixed(2),u:'m²',c:DB.empanet.length},{n:'Cantos',v:DB.cantos.reduce((a,r)=>a+r.ml,0).toFixed(2),u:'ml',c:DB.cantos.length},{n:'Pinturas',v:DB.pintura.reduce((a,r)=>a+r.area,0).toFixed(2),u:'m²',c:DB.pintura.length},{n:'Plafones',v:DB.plafones.reduce((a,r)=>a+r.area,0).toFixed(2),u:'m²',c:DB.plafones.length},{n:'Electricidad',v:DB.electrica.reduce((a,r)=>a+r.pto,0),u:'ptos',c:DB.electrica.length},{n:'Plomería',v:DB.plomeria.reduce((a,r)=>a+r.ml,0).toFixed(2),u:'ml',c:DB.plomeria.length},{n:'Mesetas cocina',v:DB.cocina.reduce((a,r)=>a+r.ml,0).toFixed(2),u:'ml',c:DB.cocina.length},{n:'Ebanistería',v:DB.ebanisteria.reduce((a,r)=>a+r.und,0),u:'und',c:DB.ebanisteria.length},{n:'Ventanales',v:DB.ventanales.reduce((a,r)=>a+r.area,0).toFixed(2),u:'m²',c:DB.ventanales.length}].filter(m=>m.c>0);
+  const resRows=mods.map(m=>`<tr><td style="${td}">${m.n}</td><td style="${td};text-align:center;">${m.c}</td><td style="${tdg};text-align:center;">${m.v}</td><td style="${td};text-align:center;">${m.u}</td></tr>`).join('');
+  const tot=(arr,k)=>arr.reduce((a,r)=>a+(r[k]||0),0);
+  const exR=DB.excavacion.map(r=>`<tr><td style="${td}">${r.desc}</td><td style="${td}">${r.l}</td><td style="${td}">${r.a}</td><td style="${td}">${r.p}</td><td style="${td}">${r.t}%</td><td style="${td}">${r.n}</td><td style="${tdg}">${r.vol.toFixed(3)}</td></tr>`).join('');
+  const acR=ac.map(r=>`<tr><td style="${td}">${r.desc}</td><td style="${td}">${r.var_}</td><td style="${td}">${r.lon}</td><td style="${td}">${r.nb}</td><td style="${td}">${r.ne}</td><td style="${td}">${r.ml.toFixed(2)}</td><td style="${tdg}">${r.kg.toFixed(2)}</td></tr>`).join('');
+  const blR=DB.bloques.map(r=>`<tr><td style="${td}">${r.desc}</td><td style="${td}">${r.tipo}</td><td style="${td}">${r.area.toFixed(2)}</td><td style="${tdg}">${r.und}</td></tr>`).join('');
+  const enR=DB.encofrado.map(r=>`<tr><td style="${td}">${r.desc}</td><td style="${td}">${r.elem}</td><td style="${td}">${r.l}</td><td style="${td}">${r.a}</td><td style="${td}">${r.h}</td><td style="${td}">${r.n}</td><td style="${tdg}">${r.area.toFixed(2)}</td></tr>`).join('');
+  const vaR=DB.vaciado.map(r=>`<tr><td style="${td}">${r.desc}</td><td style="${td}">${r.elem}</td><td style="${td}">${r.fc}</td><td style="${td}">${r.l}</td><td style="${td}">${r.a}</td><td style="${td}">${r.h}</td><td style="${td}">${r.n}</td><td style="${tdg}">${r.vol.toFixed(3)}</td></tr>`).join('');
+  const empR=DB.empanet.map(r=>`<tr><td style="${td}">${r.desc}</td><td style="${td}">${r.tipo}</td><td style="${td}">${r.l}</td><td style="${td}">${r.a}</td><td style="${td}">${r.v}</td><td style="${td}">${r.n}</td><td style="${tdg}">${r.area.toFixed(2)}</td></tr>`).join('');
+  const caR=DB.cantos.map(r=>`<tr><td style="${td}">${r.desc}</td><td style="${td}">${r.tipo}</td><td style="${td}">${r.l}</td><td style="${td}">${r.n}</td><td style="${tdg}">${r.ml.toFixed(2)}</td></tr>`).join('');
+  const piR=DB.pintura.map(r=>`<tr><td style="${td}">${r.desc}</td><td style="${td}">${r.tipo}</td><td style="${td}">${r.l}</td><td style="${td}">${r.a}</td><td style="${td}">${r.v}</td><td style="${td}">${r.n}</td><td style="${tdg}">${r.area.toFixed(2)}</td></tr>`).join('');
+  const pfR=DB.plafones.map(r=>`<tr><td style="${td}">${r.desc}</td><td style="${td}">${r.tipo}</td><td style="${td}">${r.l}</td><td style="${td}">${r.a}</td><td style="${td}">${r.n}</td><td style="${tdg}">${r.area.toFixed(2)}</td></tr>`).join('');
+  const elR=DB.electrica.map(r=>`<tr><td style="${td}">${r.desc}</td><td style="${td}">${r.tipo}</td><td style="${tdg}">${r.pto}</td><td style="${td}">${r.l}</td></tr>`).join('');
+  const plR=DB.plomeria.map(r=>`<tr><td style="${td}">${r.desc}</td><td style="${td}">${r.sis}</td><td style="${td}">${r.dia}</td><td style="${td}">${r.n}</td><td style="${tdg}">${r.ml.toFixed(2)}</td></tr>`).join('');
+  const coR=DB.cocina.map(r=>`<tr><td style="${td}">${r.desc}</td><td style="${td}">${r.tipo}</td><td style="${td}">${r.l}</td><td style="${td}">${r.n}</td><td style="${tdg}">${r.ml.toFixed(2)}</td></tr>`).join('');
+  const ebR=DB.ebanisteria.map(r=>`<tr><td style="${td}">${r.desc}</td><td style="${td}">${r.tipo}</td><td style="${td}">${r.a}</td><td style="${td}">${r.h}</td><td style="${tdg}">${r.und}</td></tr>`).join('');
+  const veR=DB.ventanales.map(r=>`<tr><td style="${td}">${r.desc}</td><td style="${td}">${r.tipo}</td><td style="${td}">${r.vid}</td><td style="${td}">${r.a}</td><td style="${td}">${r.h}</td><td style="${td}">${r.n}</td><td style="${tdg}">${r.area.toFixed(2)}</td></tr>`).join('');
+  return`<div style="font-family:'Segoe UI',Arial,sans-serif;padding:22px 24px;color:#1a1a1a;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+    <div style="display:flex;align-items:center;gap:12px;"><div style="background:${navy};width:44px;height:44px;border-radius:9px;display:flex;align-items:center;justify-content:center;"><span style="font-size:22px;font-weight:900;color:#e6b428;">C</span></div><div><div style="font-size:18px;font-weight:800;color:${navy};">CUBIMETRIC PRO</div><div style="font-size:10px;color:#999;">Sistema de Cubicaciones · Ingeniería Civil</div></div></div>
+    <div style="text-align:right;"><div style="background:${bg};color:${co};padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;display:inline-block;">${estado}</div><div style="font-size:10px;color:#999;margin-top:3px;">N° ${num}</div></div>
+  </div>
+  <div style="border-top:3px solid #e6b428;margin:8px 0 12px;"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid #e2e5ec;border-radius:7px;overflow:hidden;margin-bottom:16px;">
+    <div style="padding:8px 12px;border-right:1px solid #e2e5ec;border-bottom:1px solid #e2e5ec;"><div style="font-size:9px;color:#999;text-transform:uppercase;letter-spacing:0.7px;">Proyecto</div><div style="font-size:13px;font-weight:700;color:${navy};">${proj}</div></div>
+    <div style="padding:8px 12px;border-bottom:1px solid #e2e5ec;"><div style="font-size:9px;color:#999;text-transform:uppercase;letter-spacing:0.7px;">Ubicación</div><div style="font-size:12px;color:#333;">${ubic}</div></div>
+    <div style="padding:8px 12px;border-right:1px solid #e2e5ec;border-bottom:1px solid #e2e5ec;"><div style="font-size:9px;color:#999;text-transform:uppercase;letter-spacing:0.7px;">Nivel / Etapa</div><div style="font-size:12px;color:#333;">${nivel}</div></div>
+    <div style="padding:8px 12px;border-bottom:1px solid #e2e5ec;"><div style="font-size:9px;color:#999;text-transform:uppercase;letter-spacing:0.7px;">Fecha</div><div style="font-size:12px;color:#333;">${fecha}</div></div>
+    <div style="padding:8px 12px;border-right:1px solid #e2e5ec;"><div style="font-size:9px;color:#999;text-transform:uppercase;letter-spacing:0.7px;">Elaborado por</div><div style="font-size:12px;font-weight:600;color:#333;">${autor}</div></div>
+    <div style="padding:8px 12px;display:grid;grid-template-columns:1fr 1fr;"><div style="border-right:1px solid #e2e5ec;padding-right:12px;"><div style="font-size:9px;color:#999;text-transform:uppercase;letter-spacing:0.7px;">Revisado</div><div style="font-size:11px;color:#555;">${revisor}</div></div><div style="padding-left:12px;"><div style="font-size:9px;color:#999;text-transform:uppercase;letter-spacing:0.7px;">Aprobado</div><div style="font-size:11px;color:#555;">${aprueba}</div></div></div>
+  </div>
+  ${mods.length?sec('RESUMEN GENERAL','#444',['Módulo','Ítems','Total','Unidad'],resRows,''):''}
+  ${exR?sec('1. EXCAVACIONES','#1a4a6b',['Descripción','L(m)','A(m)','P(m)','Talud','N','Vol m³'],exR,`Total: <strong>${tot(DB.excavacion,'vol').toFixed(3)} m³</strong>`):''}
+  ${acR?sec('2. ACEROS DE REFUERZO','#1a4a6b',['Descripción','Varilla','L.unit','Barras','Elem','ml','kg'],acR,`Total: <strong>${tot(ac,'kg').toFixed(1)} kg · ${tot(ac,'ml').toFixed(2)} ml</strong>`):''}
+  ${blR?sec('3. BLOQUES','#1a4a6b',['Descripción','Tipo','Área m²','Und'],blR,`Total: <strong>${tot(DB.bloques,'und')} und</strong>`):''}
+  ${enR?sec('4. ENCOFRADOS','#1a4a6b',['Descripción','Elem','L','A','H','N','m²'],enR,`Total: <strong>${tot(DB.encofrado,'area').toFixed(2)} m²</strong>`):''}
+  ${vaR?sec('5. VACIADOS DE CONCRETO','#1a4a6b',["Desc","Elem","f'c","L","A","H","N","m³"],vaR,`Total: <strong>${tot(DB.vaciado,'vol').toFixed(3)} m³</strong>`):''}
+  ${empR?sec('6. EMPAÑETES','#1a6b40',['Descripción','Tipo','L','H','Vanos','N','m²'],empR,`Total: <strong>${tot(DB.empanet,'area').toFixed(2)} m²</strong>`):''}
+  ${caR?sec('7. CANTOS','#1a6b40',['Descripción','Tipo','Long(m)','N','ml'],caR,`Total: <strong>${tot(DB.cantos,'ml').toFixed(2)} ml</strong>`):''}
+  ${piR?sec('8. PINTURAS','#1a6b40',['Descripción','Tipo','L','H','Vanos','N','m²'],piR,`Total: <strong>${tot(DB.pintura,'area').toFixed(2)} m²</strong>`):''}
+  ${pfR?sec('9. PLAFONES','#1a6b40',['Ambiente','Tipo','L','A','N','m²'],pfR,`Total: <strong>${tot(DB.plafones,'area').toFixed(2)} m²</strong>`):''}
+  ${elR?sec('10. ELECTRICIDAD','#7b241c',['Descripción','Tipo','Puntos','ml conducto'],elR,`Total: <strong>${tot(DB.electrica,'pto')} puntos</strong>`):''}
+  ${plR?sec('11. PLOMERÍA','#7b241c',['Descripción','Sistema','Diám','N','ml'],plR,`Total: <strong>${tot(DB.plomeria,'ml').toFixed(2)} ml</strong>`):''}
+  ${coR?sec('12. MESETAS COCINA','#5b2c6f',['Descripción','Tipo','Long','N','ml'],coR,`Total: <strong>${tot(DB.cocina,'ml').toFixed(2)} ml</strong>`):''}
+  ${ebR?sec('13. EBANISTERÍA','#5b2c6f',['Descripción','Tipo','A(m)','H(m)','und'],ebR,`Total: <strong>${tot(DB.ebanisteria,'und')} und</strong>`):''}
+  ${veR?sec('14. VENTANALES','#5b2c6f',['Descripción','Tipo','Vidrio','A','H','N','m²'],veR,`Total: <strong>${tot(DB.ventanales,'area').toFixed(2)} m²</strong>`):''}
+  <div style="margin-top:20px;border-top:1px solid #ddd;padding-top:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+    <div style="text-align:center;border:1px solid #ddd;border-radius:5px;padding:8px 4px;"><div style="font-size:9px;color:#999;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:14px;">Elaborado por</div><div style="border-top:1px solid #bbb;padding-top:5px;font-size:10px;color:#555;">${autor}</div></div>
+    <div style="text-align:center;border:1px solid #ddd;border-radius:5px;padding:8px 4px;"><div style="font-size:9px;color:#999;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:14px;">Revisado por</div><div style="border-top:1px solid #bbb;padding-top:5px;font-size:10px;color:#555;">${revisor}</div></div>
+    <div style="text-align:center;border:1px solid #ddd;border-radius:5px;padding:8px 4px;"><div style="font-size:9px;color:#999;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:14px;">Aprobado por</div><div style="border-top:1px solid #bbb;padding-top:5px;font-size:10px;color:#555;">${aprueba}</div></div>
+  </div>
+  <div style="margin-top:10px;font-size:9px;color:#bbb;text-align:center;">CUBIMETRIC PRO v2.0 · N° ${num} · ${fecha}</div>
+</div>`;
+}
+
+function showPreview(){document.getElementById('preview-content').innerHTML=generarHTML();document.getElementById('screen-preview').style.display='block';}
+function closePreview(){document.getElementById('screen-preview').style.display='none';}
+function imprimir(){const proj=gv('proj-nombre')||'Cubicaciones';const w=window.open('','_blank');w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${proj}</title><style>@media print{body{margin:0;}@page{margin:14mm 12mm;size:A4;}}</style></head><body>${generarHTML()}</body></html>`);w.document.close();setTimeout(()=>w.print(),600);}
+function exportarPDF(){const allEmpty=Object.values(DB).every(v=>Array.isArray(v)?v.length===0:Object.values(v).every(a=>a.length===0));if(allEmpty){alert('No hay cubicaciones ingresadas todavía.');return;}imprimir();}
+
+function fg(l,id,type,ph,val){return`<div class="form-group"><label>${l}</label><input id="${id}" type="${type||'text'}" step="0.01" placeholder="${ph||''}" value="${val||''}"></div>`;}
+function fgF(l,id,type,ph,val){return`<div class="form-group full"><label>${l}</label><input id="${id}" type="${type||'text'}" step="0.01" placeholder="${ph||''}" value="${val||''}"></div>`;}
+function fgS(l,id,opts){return`<div class="form-group"><label>${l}</label><select id="${id}">${opts.map(o=>`<option>${o}</option>`).join('')}</select></div>`;}
+function fgSF(l,id,opts){return`<div class="form-group full"><label>${l}</label><select id="${id}">${opts.map(o=>`<option>${o}</option>`).join('')}</select></div>`;}
+function v(id){const e=document.getElementById(id);return e?e.value:'';}
+function vS(id){const e=document.getElementById(id);return e&&e.options?e.options[e.selectedIndex].text:'';}
+function emptyR(ic){return`<div class="empty-msg"><i class="ti ti-${ic}"></i>Sin registros aún.</div>`;}
+function pills(arr){return`<div class="totals-row">${arr.map(p=>`<div class="total-pill"><div class="tpl">${p.l}</div><div class="tpv">${p.v}</div><div class="tpu">${p.u}</div></div>`).join('')}</div>`;}
+function tbl(cols,rows){return`<div class="table-wrap"><table><thead><tr>${cols.map(c=>`<th>${c}</th>`).join('')}<th></th></tr></thead><tbody>${rows}</tbody></table></div>`;}
+
+function renderModBody(mod){
+  const b=document.getElementById('mod-body');
+  if(mod==='excavacion'){
+    b.innerHTML=`<div class="form-card"><div class="form-title">Nuevo elemento</div><div class="form-grid">${fgF('Descripción','ex-desc','text','Ej: Zapata Z-1')}${fg('Largo (m)','ex-l','number','0.00')}${fg('Ancho (m)','ex-a','number','0.00')}${fg('Prof. (m)','ex-p','number','0.00')}${fg('Talud %','ex-t','number','0','0')}${fg('Cantidad','ex-n','number','1','1')}</div><div class="add-row"><button class="btn-add" onclick="addEx()"><i class="ti ti-plus"></i> Agregar</button></div></div>`;
+    const rows=DB.excavacion.map((r,i)=>`<tr><td>${r.desc}</td><td>${r.l}</td><td>${r.a}</td><td>${r.p}</td><td>${r.t}%</td><td>${r.n}</td><td class="hl">${r.vol.toFixed(3)}</td><td><button class="del-btn" onclick="del('excavacion',${i})"><i class="ti ti-trash"></i></button></td></tr>`).join('');
+    b.innerHTML+=`<div class="results-card"><div class="results-header">Registros</div>${DB.excavacion.length?tbl(['Desc','L','A','P','T','N','m³'],rows):emptyR('shovel')}</div>`;
+    if(DB.excavacion.length)b.innerHTML+=pills([{l:'Vol. Total',v:DB.excavacion.reduce((a,r)=>a+r.vol,0).toFixed(3),u:'m³'}]);
+  }else if(mod==='acero'){
+    const tn={zatas:'Zapatas',columnas:'Columnas',vigas:'Vigas',losas:'Losas',otros:'Otros'};
+    b.innerHTML=`<div class="acero-tabs">${Object.keys(tn).map(t=>`<div class="atab${t===acTab?' active':''}" onclick="setAT('${t}')">${tn[t]}</div>`).join('')}</div>
+    <div class="form-card"><div class="form-title">Nuevo acero</div><div class="form-grid">${fgF('Descripción','ac-desc','text','Ej: C-1')}${fgSF('Varilla','ac-var',['Ø3/8" — 0.559 kg/m','Ø1/2" — 0.994 kg/m','Ø5/8" — 1.552 kg/m','Ø3/4" — 2.235 kg/m','Ø7/8" — 3.042 kg/m','Ø#3 estribo — 0.562 kg/m'])}${fg('Long. (m)','ac-lon','number','0.00')}${fg('N° barras','ac-nb','number','1','1')}${fg('N° elem.','ac-ne','number','1','1')}</div><div class="add-row"><button class="btn-add" onclick="addAc()"><i class="ti ti-plus"></i> Agregar</button></div></div>`;
+    const cur=DB.acero[acTab];
+    const rows=cur.map((r,i)=>`<tr><td>${r.desc}</td><td>${r.var_.substring(0,6)}</td><td>${r.lon}</td><td>${r.nb}</td><td>${r.ne}</td><td>${r.ml.toFixed(1)}</td><td class="hl">${r.kg.toFixed(1)}</td><td><button class="del-btn" onclick="delAc('${acTab}',${i})"><i class="ti ti-trash"></i></button></td></tr>`).join('');
+    b.innerHTML+=`<div class="results-card"><div class="results-header">${tn[acTab]}</div>${cur.length?tbl(['Desc','Var','L','Barr','Elem','ml','kg'],rows):emptyR('tools')}</div>`;
+    const all=Object.values(DB.acero).flat();
+    if(all.length)b.innerHTML+=pills([{l:'kg Total',v:all.reduce((a,r)=>a+r.kg,0).toFixed(1),u:'kg'},{l:'ml Total',v:all.reduce((a,r)=>a+r.ml,0).toFixed(1),u:'ml'}]);
+  }else if(mod==='bloques'){
+    b.innerHTML=`<div class="form-card"><div class="form-title">Nuevo muro</div><div class="form-grid">${fgF('Descripción','bl-desc','text','Ej: Muro sala')}${fgSF('Tipo Block','bl-tipo',['Block 6" (190×190×390)','Block 8" (190×190×390)','Block 4" (100×190×390)'])}${fg('Largo (m)','bl-l','number','0.00')}${fg('Alto (m)','bl-a','number','0.00')}${fg('Vanos m²','bl-v','number','0.00')}${fg('N° muros','bl-n','number','1','1')}</div><div class="add-row"><button class="btn-add" onclick="addBl()"><i class="ti ti-plus"></i> Agregar</button></div></div>`;
+    const rows=DB.bloques.map((r,i)=>`<tr><td>${r.desc}</td><td>${r.tipo.substring(0,8)}</td><td>${r.l}</td><td>${r.a}</td><td>${r.v}</td><td>${r.n}</td><td>${r.area.toFixed(1)}</td><td class="hl">${r.und}</td><td><button class="del-btn" onclick="del('bloques',${i})"><i class="ti ti-trash"></i></button></td></tr>`).join('');
+    b.innerHTML+=`<div class="results-card"><div class="results-header">Registros</div>${DB.bloques.length?tbl(['Desc','Tipo','L','H','Van','N','m²','und'],rows):emptyR('layout-grid')}</div>`;
+    if(DB.bloques.length)b.innerHTML+=pills([{l:'Bloques',v:DB.bloques.reduce((a,r)=>a+r.und,0),u:'und'},{l:'Área',v:DB.bloques.reduce((a,r)=>a+r.area,0).toFixed(1),u:'m²'}]);
+  }else if(mod==='encofrado'){
+    b.innerHTML=`<div class="form-card"><div class="form-title">Nuevo encofrado</div><div class="form-grid">${fgF('Descripción','en-desc','text','Ej: Col C-1')}${fgS('Elemento','en-elem',['Columna','Viga','Losa','Fundación','Muro'])}${fg('Largo (m)','en-l','number','0.00')}${fg('Ancho (m)','en-a','number','0.00')}${fg('Alt./Esp. (m)','en-h','number','0.00')}${fg('Cantidad','en-n','number','1','1')}</div><div class="add-row"><button class="btn-add" onclick="addEn()"><i class="ti ti-plus"></i> Agregar</button></div></div>`;
+    const rows=DB.encofrado.map((r,i)=>`<tr><td>${r.desc}</td><td>${r.elem}</td><td>${r.l}</td><td>${r.a}</td><td>${r.h}</td><td>${r.n}</td><td class="hl">${r.area.toFixed(2)}</td><td><button class="del-btn" onclick="del('encofrado',${i})"><i class="ti ti-trash"></i></button></td></tr>`).join('');
+    b.innerHTML+=`<div class="results-card"><div class="results-header">Registros</div>${DB.encofrado.length?tbl(['Desc','Elem','L','A','H','N','m²'],rows):emptyR('wall')}</div>`;
+    if(DB.encofrado.length)b.innerHTML+=pills([{l:'Área Total',v:DB.encofrado.reduce((a,r)=>a+r.area,0).toFixed(2),u:'m²'}]);
+  }else if(mod==='vaciado'){
+    b.innerHTML=`<div class="form-card"><div class="form-title">Nuevo vaciado</div><div class="form-grid">${fgF('Descripción','va-desc','text','Ej: Losa N1')}${fgS('Elemento','va-elem',['Zapata','Columna','Viga','Losa','Muro','Escalera'])}${fgS("f'c",'va-fc',["f'c=175 kg/cm²","f'c=210 kg/cm²","f'c=280 kg/cm²"])}${fg('Largo (m)','va-l','number','0.00')}${fg('Ancho (m)','va-a','number','0.00')}${fg('Alto (m)','va-h','number','0.00')}${fg('Cantidad','va-n','number','1','1')}</div><div class="add-row"><button class="btn-add" onclick="addVa()"><i class="ti ti-plus"></i> Agregar</button></div></div>`;
+    const rows=DB.vaciado.map((r,i)=>`<tr><td>${r.desc}</td><td>${r.elem}</td><td>${r.fc.replace("f'c=","")}</td><td>${r.l}</td><td>${r.a}</td><td>${r.h}</td><td>${r.n}</td><td class="hl">${r.vol.toFixed(3)}</td><td><button class="del-btn" onclick="del('vaciado',${i})"><i class="ti ti-trash"></i></button></td></tr>`).join('');
+    b.innerHTML+=`<div class="results-card"><div class="results-header">Registros</div>${DB.vaciado.length?tbl(['Desc','Elem','f\'c','L','A','H','N','m³'],rows):emptyR('droplet-filled')}</div>`;
+    if(DB.vaciado.length)b.innerHTML+=pills([{l:'Vol. Total',v:DB.vaciado.reduce((a,r)=>a+r.vol,0).toFixed(3),u:'m³'}]);
+  }else if(mod==='empanet'||mod==='pintura'){
+    const isE=mod==='empanet';
+    b.innerHTML=`<div class="form-card"><div class="form-title">Nuevo registro</div><div class="form-grid">${fgF('Descripción','ep-desc','text')}${fgSF('Tipo','ep-tipo',isE?['Empañete interior','Empañete exterior','Fratasado fino','Repello grueso']:['Látex interior','Látex exterior','Esmalte','Barniz','Anticorrosivo'])}${fg('Largo (m)','ep-l','number','0.00')}${fg('Alto (m)','ep-a','number','0.00')}${fg('Vanos m²','ep-v','number','0.00')}${fg('Cantidad','ep-n','number','1','1')}</div><div class="add-row"><button class="btn-add" onclick="addEP('${mod}')"><i class="ti ti-plus"></i> Agregar</button></div></div>`;
+    const rows=DB[mod].map((r,i)=>`<tr><td>${r.desc}</td><td>${r.tipo.split(' ')[0]}</td><td>${r.l}</td><td>${r.a}</td><td>${r.v}</td><td>${r.n}</td><td class="hl">${r.area.toFixed(2)}</td><td><button class="del-btn" onclick="del('${mod}',${i})"><i class="ti ti-trash"></i></button></td></tr>`).join('');
+    b.innerHTML+=`<div class="results-card"><div class="results-header">Registros</div>${DB[mod].length?tbl(['Desc','Tipo','L','H','Van','N','m²'],rows):emptyR(isE?'paint':'brush')}</div>`;
+    if(DB[mod].length)b.innerHTML+=pills([{l:'Área Total',v:DB[mod].reduce((a,r)=>a+r.area,0).toFixed(2),u:'m²'}]);
+  }else if(mod==='cantos'){
+    b.innerHTML=`<div class="form-card"><div class="form-title">Nuevo registro</div><div class="form-grid">${fgF('Descripción','ca-desc','text')}${fgS('Tipo','ca-tipo',['Canto de losa','Canto de viga','Canto de escalera'])}${fg('Longitud (m)','ca-l','number','0.00')}${fg('Cantidad','ca-n','number','1','1')}</div><div class="add-row"><button class="btn-add" onclick="addCa()"><i class="ti ti-plus"></i> Agregar</button></div></div>`;
+    const rows=DB.cantos.map((r,i)=>`<tr><td>${r.desc}</td><td>${r.tipo.split(' ')[1]}</td><td>${r.l}</td><td>${r.n}</td><td class="hl">${r.ml.toFixed(2)}</td><td><button class="del-btn" onclick="del('cantos',${i})"><i class="ti ti-trash"></i></button></td></tr>`).join('');
+    b.innerHTML+=`<div class="results-card"><div class="results-header">Registros</div>${DB.cantos.length?tbl(['Desc','Tipo','Long','N','ml'],rows):emptyR('border-outer')}</div>`;
+    if(DB.cantos.length)b.innerHTML+=pills([{l:'ml Total',v:DB.cantos.reduce((a,r)=>a+r.ml,0).toFixed(2),u:'ml'}]);
+  }else if(mod==='plafones'){
+    b.innerHTML=`<div class="form-card"><div class="form-title">Nuevo plafón</div><div class="form-grid">${fgF('Ambiente','pf-desc','text','Ej: Sala')}${fgS('Tipo','pf-tipo',['Gypsum','PVC','Yeso','Madera','Concreto visto'])}${fg('Largo (m)','pf-l','number','0.00')}${fg('Ancho (m)','pf-a','number','0.00')}${fg('Cantidad','pf-n','number','1','1')}</div><div class="add-row"><button class="btn-add" onclick="addPf()"><i class="ti ti-plus"></i> Agregar</button></div></div>`;
+    const rows=DB.plafones.map((r,i)=>`<tr><td>${r.desc}</td><td>${r.tipo}</td><td>${r.l}</td><td>${r.a}</td><td>${r.n}</td><td class="hl">${r.area.toFixed(2)}</td><td><button class="del-btn" onclick="del('plafones',${i})"><i class="ti ti-trash"></i></button></td></tr>`).join('');
+    b.innerHTML+=`<div class="results-card"><div class="results-header">Registros</div>${DB.plafones.length?tbl(['Ambiente','Tipo','L','A','N','m²'],rows):emptyR('square')}</div>`;
+    if(DB.plafones.length)b.innerHTML+=pills([{l:'Área Total',v:DB.plafones.reduce((a,r)=>a+r.area,0).toFixed(2),u:'m²'}]);
+  }else if(mod==='electrica'){
+    b.innerHTML=`<div class="form-card"><div class="form-title">Nuevo punto</div><div class="form-grid">${fgF('Descripción','el-desc','text','Ej: Sala')}${fgSF('Tipo','el-tipo',['Tomacorriente doble 120V','Tomacorriente GFCI','Interruptor sencillo','Interruptor doble','Punto de luz/lámpara','Breaker 120V','Breaker 240V','Salida especial 240V'])}${fg('N° puntos','el-p','number','1','1')}${fg('ml conducto','el-l','number','0.00')}</div><div class="add-row"><button class="btn-add" onclick="addEl()"><i class="ti ti-plus"></i> Agregar</button></div></div>`;
+    const rows=DB.electrica.map((r,i)=>`<tr><td>${r.desc}</td><td>${r.tipo.split(' ')[0]}</td><td class="hl">${r.pto}</td><td>${r.l}</td><td><button class="del-btn" onclick="del('electrica',${i})"><i class="ti ti-trash"></i></button></td></tr>`).join('');
+    b.innerHTML+=`<div class="results-card"><div class="results-header">Registros</div>${DB.electrica.length?tbl(['Desc','Tipo','Ptos','ml'],rows):emptyR('bolt')}</div>`;
+    if(DB.electrica.length)b.innerHTML+=pills([{l:'Puntos',v:DB.electrica.reduce((a,r)=>a+r.pto,0),u:'ptos'},{l:'ml conducto',v:DB.electrica.reduce((a,r)=>a+r.l,0).toFixed(1),u:'ml'}]);
+  }else if(mod==='plomeria'){
+    b.innerHTML=`<div class="form-card"><div class="form-title">Nueva tubería</div><div class="form-grid">${fgF('Descripción','pl-desc','text')}${fgS('Sistema','pl-sis',['Agua fría','Agua caliente','Drenaje sanitario','Drenaje pluvial','Ventilación'])}${fgS('Diámetro','pl-dia',['Ø1/2"','Ø3/4"','Ø1"','Ø1½"','Ø2"','Ø3"','Ø4"','Ø6"'])}${fg('Longitud (m)','pl-l','number','0.00')}${fg('N° piezas','pl-n','number','1','1')}</div><div class="add-row"><button class="btn-add" onclick="addPl()"><i class="ti ti-plus"></i> Agregar</button></div></div>`;
+    const rows=DB.plomeria.map((r,i)=>`<tr><td>${r.desc}</td><td>${r.sis.split(' ')[0]}</td><td>${r.dia}</td><td>${r.n}</td><td class="hl">${r.ml.toFixed(2)}</td><td><button class="del-btn" onclick="del('plomeria',${i})"><i class="ti ti-trash"></i></button></td></tr>`).join('');
+    b.innerHTML+=`<div class="results-card"><div class="results-header">Registros</div>${DB.plomeria.length?tbl(['Desc','Sist','Diám','N','ml'],rows):emptyR('wave-sine')}</div>`;
+    if(DB.plomeria.length)b.innerHTML+=pills([{l:'ml Total',v:DB.plomeria.reduce((a,r)=>a+r.ml,0).toFixed(2),u:'ml'}]);
+  }else if(mod==='cocina'){
+    b.innerHTML=`<div class="form-card"><div class="form-title">Nueva meseta</div><div class="form-grid">${fgF('Descripción','co-desc','text')}${fgSF('Tipo','co-tipo',['Granito','Mármol','Cuarzo','Cerámica','Módulo alto','Módulo bajo','Isla central'])}${fg('Longitud (m)','co-l','number','0.00')}${fg('Cantidad','co-n','number','1','1')}</div><div class="add-row"><button class="btn-add" onclick="addCo()"><i class="ti ti-plus"></i> Agregar</button></div></div>`;
+    const rows=DB.cocina.map((r,i)=>`<tr><td>${r.desc}</td><td>${r.tipo}</td><td>${r.l}</td><td>${r.n}</td><td class="hl">${r.ml.toFixed(2)}</td><td><button class="del-btn" onclick="del('cocina',${i})"><i class="ti ti-trash"></i></button></td></tr>`).join('');
+    b.innerHTML+=`<div class="results-card"><div class="results-header">Registros</div>${DB.cocina.length?tbl(['Desc','Tipo','Long','N','ml'],rows):emptyR('home')}</div>`;
+    if(DB.cocina.length)b.innerHTML+=pills([{l:'ml Total',v:DB.cocina.reduce((a,r)=>a+r.ml,0).toFixed(2),u:'ml'}]);
+  }else if(mod==='ebanisteria'){
+    b.innerHTML=`<div class="form-card"><div class="form-title">Nuevo elemento</div><div class="form-grid">${fgF('Descripción','eb-desc','text')}${fgSF('Tipo','eb-tipo',['Puerta interior','Puerta exterior','Puerta closet','Closet empotrado','Mueble bajo cocina','Mueble alto cocina','Librería'])}${fg('Ancho (m)','eb-a','number','0.00')}${fg('Alto (m)','eb-h','number','0.00')}${fg('Cantidad','eb-n','number','1','1')}</div><div class="add-row"><button class="btn-add" onclick="addEb()"><i class="ti ti-plus"></i> Agregar</button></div></div>`;
+    const rows=DB.ebanisteria.map((r,i)=>`<tr><td>${r.desc}</td><td>${r.tipo.split(' ')[0]}</td><td>${r.a}</td><td>${r.h}</td><td>${r.n}</td><td>${r.area.toFixed(1)}</td><td class="hl">${r.und}</td><td><button class="del-btn" onclick="del('ebanisteria',${i})"><i class="ti ti-trash"></i></button></td></tr>`).join('');
+    b.innerHTML+=`<div class="results-card"><div class="results-header">Registros</div>${DB.ebanisteria.length?tbl(['Desc','Tipo','A','H','N','m²','und'],rows):emptyR('door')}</div>`;
+    if(DB.ebanisteria.length)b.innerHTML+=pills([{l:'Unidades',v:DB.ebanisteria.reduce((a,r)=>a+r.und,0),u:'und'}]);
+  }else if(mod==='ventanales'){
+    b.innerHTML=`<div class="form-card"><div class="form-title">Nuevo ventanal</div><div class="form-grid">${fgF('Descripción','ve-desc','text')}${fgS('Tipo','ve-tipo',['Ventana aluminio corrediza','Ventana aluminio fija','Ventana hierro','Puerta-ventana corrediza','Curtain wall','Celosía'])}${fgS('Vidrio','ve-vid',['Simple 3mm','Simple 5mm','Templado 6mm','Templado 8mm','Laminado 6mm'])}${fg('Ancho (m)','ve-a','number','0.00')}${fg('Alto (m)','ve-h','number','0.00')}${fg('Cantidad','ve-n','number','1','1')}</div><div class="add-row"><button class="btn-add" onclick="addVe()"><i class="ti ti-plus"></i> Agregar</button></div></div>`;
+    const rows=DB.ventanales.map((r,i)=>`<tr><td>${r.desc}</td><td>${r.tipo.split(' ')[1]||r.tipo}</td><td>${r.vid}</td><td>${r.a}</td><td>${r.h}</td><td>${r.n}</td><td class="hl">${r.area.toFixed(2)}</td><td><button class="del-btn" onclick="del('ventanales',${i})"><i class="ti ti-trash"></i></button></td></tr>`).join('');
+    b.innerHTML+=`<div class="results-card"><div class="results-header">Registros</div>${DB.ventanales.length?tbl(['Desc','Tipo','Vidrio','A','H','N','m²'],rows):emptyR('app-window')}</div>`;
+    if(DB.ventanales.length)b.innerHTML+=pills([{l:'Área Total',v:DB.ventanales.reduce((a,r)=>a+r.area,0).toFixed(2),u:'m²'}]);
+  }
+}
+
+function del(mod,i){DB[mod].splice(i,1);renderModBody(mod);updateCounts();}
+function delAc(tab,i){DB.acero[tab].splice(i,1);renderModBody('acero');updateCounts();}
+function setAT(t){acTab=t;renderModBody('acero');}
+function addEx(){const desc=v('ex-desc'),l=+v('ex-l'),a=+v('ex-a'),p=+v('ex-p'),t=+v('ex-t')||0,n=+v('ex-n')||1;if(!desc||!l||!a||!p)return alert('Complete L, A y P.');DB.excavacion.push({desc,l,a,p,t,n,vol:l*a*p*(1+t/100)*n});renderModBody('excavacion');updateCounts();}
+function addAc(){const km={'Ø3/8" — 0.559 kg/m':0.559,'Ø1/2" — 0.994 kg/m':0.994,'Ø5/8" — 1.552 kg/m':1.552,'Ø3/4" — 2.235 kg/m':2.235,'Ø7/8" — 3.042 kg/m':3.042,'Ø#3 estribo — 0.562 kg/m':0.562};const desc=v('ac-desc'),var_=vS('ac-var'),lon=+v('ac-lon'),nb=+v('ac-nb')||1,ne=+v('ac-ne')||1;if(!desc||!lon)return alert('Complete descripción y longitud.');const ml=lon*nb*ne,kg=ml*(km[var_]||0.559);DB.acero[acTab].push({desc,var_,lon,nb,ne,ml,kg});renderModBody('acero');updateCounts();}
+function addBl(){const desc=v('bl-desc'),tipo=vS('bl-tipo'),l=+v('bl-l'),a=+v('bl-a'),vanos=+v('bl-v')||0,n=+v('bl-n')||1;if(!desc||!l||!a)return alert('Complete L y H.');const area=(l*a-vanos)*n,und=Math.ceil(area*12.5);DB.bloques.push({desc,tipo,l,a,v:vanos,n,area,und});renderModBody('bloques');updateCounts();}
+function addEn(){const desc=v('en-desc'),elem=vS('en-elem'),l=+v('en-l'),a=+v('en-a'),h=+v('en-h'),n=+v('en-n')||1;if(!desc||!l)return alert('Complete los datos.');let area;if(elem==='Columna')area=2*(a+l)*h*n;else if(elem==='Viga')area=(2*h+a)*l*n;else area=l*a*n;DB.encofrado.push({desc,elem,l,a,h,n,area});renderModBody('encofrado');updateCounts();}
+function addVa(){const desc=v('va-desc'),elem=vS('va-elem'),fc=vS('va-fc'),l=+v('va-l'),a=+v('va-a'),h=+v('va-h'),n=+v('va-n')||1;if(!desc||!l||!a||!h)return alert('Complete datos.');DB.vaciado.push({desc,elem,fc,l,a,h,n,vol:l*a*h*n});renderModBody('vaciado');updateCounts();}
+function addEP(mod){const desc=v('ep-desc'),tipo=vS('ep-tipo'),l=+v('ep-l'),a=+v('ep-a'),vanos=+v('ep-v')||0,n=+v('ep-n')||1;if(!desc||!l||!a)return alert('Complete datos.');DB[mod].push({desc,tipo,l,a,v:vanos,n,area:(l*a-vanos)*n});renderModBody(mod);updateCounts();}
+function addCa(){const desc=v('ca-desc'),tipo=vS('ca-tipo'),l=+v('ca-l'),n=+v('ca-n')||1;if(!desc||!l)return alert('Complete datos.');DB.cantos.push({desc,tipo,l,n,ml:l*n});renderModBody('cantos');updateCounts();}
+function addPf(){const desc=v('pf-desc'),tipo=vS('pf-tipo'),l=+v('pf-l'),a=+v('pf-a'),n=+v('pf-n')||1;if(!desc||!l||!a)return alert('Complete datos.');DB.plafones.push({desc,tipo,l,a,n,area:l*a*n});renderModBody('plafones');updateCounts();}
+function addEl(){const desc=v('el-desc'),tipo=vS('el-tipo'),pto=+v('el-p')||1,l=+v('el-l')||0;if(!desc)return alert('Complete la descripción.');DB.electrica.push({desc,tipo,pto,l});renderModBody('electrica');updateCounts();}
+function addPl(){const desc=v('pl-desc'),sis=vS('pl-sis'),dia=vS('pl-dia'),l=+v('pl-l'),n=+v('pl-n')||1;if(!desc||!l)return alert('Complete datos.');DB.plomeria.push({desc,sis,dia,n,ml:l*n});renderModBody('plomeria');updateCounts();}
+function addCo(){const desc=v('co-desc'),tipo=vS('co-tipo'),l=+v('co-l'),n=+v('co-n')||1;if(!desc||!l)return alert('Complete datos.');DB.cocina.push({desc,tipo,l,n,ml:l*n});renderModBody('cocina');updateCounts();}
+function addEb(){const desc=v('eb-desc'),tipo=vS('eb-tipo'),a=+v('eb-a'),h=+v('eb-h'),n=+v('eb-n')||1;if(!desc||!a||!h)return alert('Complete datos.');DB.ebanisteria.push({desc,tipo,a,h,n,area:a*h*n,und:n});renderModBody('ebanisteria');updateCounts();}
+function addVe(){const desc=v('ve-desc'),tipo=vS('ve-tipo'),vid=vS('ve-vid'),a=+v('ve-a'),h=+v('ve-h'),n=+v('ve-n')||1;if(!desc||!a||!h)return alert('Complete datos.');DB.ventanales.push({desc,tipo,vid,a,h,n,area:a*h*n});renderModBody('ventanales');updateCounts();}
+</script>
+</body>
+</html>
